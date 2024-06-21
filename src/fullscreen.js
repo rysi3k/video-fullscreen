@@ -162,16 +162,18 @@ export function createFullscreen(apiList, document) {
 			if (API) {
 
 				el = el || document.documentElement;
-				el[ API['requestFullscreen'] ]();
+				return el[ API['requestFullscreen'] ]();
 
 			} else if (video) {
 
 				try {
 
-					video['webkitEnterFullscreen']();
 					activeVideo = video;
+					return video['webkitEnterFullscreen']();
 
-				} catch (e) {}
+				} catch (e) {
+					activeVideo = null;
+				}
 			}
 		},
 
@@ -182,14 +184,14 @@ export function createFullscreen(apiList, document) {
 
 			if (API) {
 
-				document[ API['exitFullscreen'] ]();
+				return document[ API['exitFullscreen'] ]();
 
 			} else if (activeVideo) {
 
 				try {
 
-					activeVideo['webkitExitFullscreen']();
 					activeVideo = null;
+					return activeVideo['webkitExitFullscreen']();
 
 				} catch (e) {}
 			}
